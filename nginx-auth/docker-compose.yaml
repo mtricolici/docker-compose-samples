@@ -1,0 +1,24 @@
+version: '2'
+
+volumes:
+  ldap_data:
+    driver: local
+
+services:
+  ldap:
+    image: bitnami/openldap:latest
+    ports:
+      - '389:1389'
+      - '1777:1777'
+    environment:
+      - BITNAMI_DEBUG=false
+      - LDAP_PORT_NUMBER=1389
+      - LDAP_LDAPS_PORT_NUMBER=1777
+      - LDAP_ADMIN_USERNAME=admin
+      - LDAP_ADMIN_PASSWORD=123
+      - LDAP_ROOT=dc=zuzu,dc=com
+      - LDAP_ALLOW_ANON_BINDING=no
+      - LDAP_CUSTOM_LDIF_DIR=/import
+    volumes:
+      - 'ldap_data:/bitnami/openldap'
+      - './ldap-schema:/import'

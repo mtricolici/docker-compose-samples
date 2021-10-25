@@ -1,0 +1,73 @@
+version: 1
+
+dn: dc=zuzu,dc=com
+dc: zuzu
+o: zuzu
+objectclass: top
+objectclass: dcObject
+objectclass: organization
+
+dn: cn=readonly,dc=zuzu,dc=com
+cn: readonly
+description: LDAP read only user
+objectclass: simpleSecurityObject
+objectclass: organizationalRole
+userpassword: {SSHA}Vs696nKfz/PX8+d6+GC/7I38DUt9b6DO
+
+dn: ou=groups,dc=zuzu,dc=com
+objectclass: organizationalUnit
+objectclass: top
+ou: groups
+
+dn: ou=users,dc=zuzu,dc=com
+objectclass: organizationalUnit
+objectclass: top
+ou: users
+
+#define group 'users'
+dn: cn=users,ou=groups,dc=zuzu,dc=com
+cn: users
+gidnumber: 500
+memberuid: user1
+memberuid: user2
+objectclass: posixGroup
+objectclass: top
+
+#define group 'admins'
+dn: cn=admins,ou=groups,dc=zuzu,dc=com
+cn: admins
+gidnumber: 501
+memberuid: user1
+objectclass: posixGroup
+objectclass: top
+
+# Define 'user1' user
+dn: cn=user1,ou=users,dc=zuzu,dc=com
+cn: user1
+gidnumber: 500
+givenname: Jora
+homedirectory: /home/users/user1
+mail: user1@zuzu.com
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: top
+sn:  Cardan
+uid: user1
+uidnumber: 1001
+userpassword: {MD5}ICy5YqxZB1uWSwcVLSNLcA==
+
+# Define 'user2' user
+dn: cn=user2,ou=users,dc=zuzu,dc=com
+cn: user2
+gidnumber: 500
+givenname: Marusea
+homedirectory: /home/users/user2
+mail: user2@zuzu.com
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: top
+sn:  Bostan
+uid: user2
+uidnumber: 1002
+userpassword: {MD5}ICy5YqxZB1uWSwcVLSNLcA==
+
