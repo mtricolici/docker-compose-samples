@@ -8,7 +8,7 @@ services:
   ldap:
     image: bitnami/openldap:latest
     ports:
-      - '389:1389'
+      - '1389:1389'
       - '1777:1777'
     environment:
       - BITNAMI_DEBUG=false
