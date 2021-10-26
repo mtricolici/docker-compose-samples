@@ -18,21 +18,20 @@ class LdapHelper:
             print("Error: invalid credentials")
             return False
 
+    def _decode(self, value):
+        if isinstance(value, bytes):
+            return value.decode('utf-8')
+        return value
+
     def fetch_users(self, baseDn):
         searchResult = self.__ldap.search_s(baseDn, ldap.SCOPE_ONELEVEL,
                 '(objectClass=inetOrgPerson)')
         users=[]
         for obj in searchResult:
             users.append(LdapUser(
-                    dn=obj[0],
-                    cn='ceva',
-                    user_id='ceva',
-                    group_id='ceva',
-                    mail='ceva'))
+                    dn       = self._decode(obj[0]),
+                    cn       = self._decode(obj[1]['cn'][0]),
+                    user_id  = self._decode(obj[1]['uidNumber'][0]),
+                    group_id = self._decode(obj[1]['gidNumber'][0]),
+                    mail     = self._decode(obj[1]['mail'][0])))
         return users
-#user.dn = obj[0]
-#user.cn=obj[1]['cn'][0]
-#print(type(obj[1]['cn'][0]))
-#exit(0)
-#user.groupId=obj[1]['gidNumber'][0]
-#print(obj)
