@@ -2,9 +2,11 @@
 
 from libs.ldap import LdapHelper
 
-print("preved")
+ldap=LdapHelper('192.168.100.24', 1389)
 
-lh=LdapHelper()
-lh.zuzu1()
+if (ldap.connect('cn=admin,dc=zuzu,dc=com', '123')):
+  res = ldap.fetch_users('ou=users,dc=zuzu,dc=com')
+  print("\n\n")
+  print(res)
 
 print("end")
