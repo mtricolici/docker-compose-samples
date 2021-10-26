@@ -1,7 +1,13 @@
 version: '2'
 
+networks:
+  my-network:
+    driver: bridge
+
 volumes:
   ldap_data:
+    driver: local
+  ldap_manager:
     driver: local
 
 services:
@@ -22,3 +28,23 @@ services:
     volumes:
       - 'ldap_data:/bitnami/openldap'
       - './ldap-schema:/import'
+    networks:
+      - my-network
+  ldapmanager:
+    image: ldapaccountmanager/lam:latest
+    ports:
+      - '8080:80'
+    environment:
+      - LAM_SKIP_PRECONFIGURE=false
+      - LDAP_DOMAIN=zuzu.com
+      - LDAP_BASE_DN=dc=zuzu,dc=com
+      - LDAP_USERS_DN=ou=users,dc=zuzu,dc=com
+      - LDAP_GROUPS_DN=ou=groups,dc=zuzu,dc=com
+      - LDAP_SERVER=ldap://ldap:1389
+      - LDAP_USER=cn=admin,dc=zuzu,dc=com
+      - LDAP_ADMIN_PASSWORD=123
+      - LDAP_READONLY_USER_PASSWORD=321
+    volumes:
+      - 'ldap_manager:/var/lib/ldap-account-manager/config'
+    networks:
+      - my-network
