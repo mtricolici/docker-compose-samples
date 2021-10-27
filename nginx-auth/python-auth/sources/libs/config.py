@@ -1,5 +1,6 @@
 import os
 import yaml
+import logging
 
 class AppConfig:
     get = None
@@ -9,18 +10,17 @@ class AppConfig:
         AppConfig._validate_config_present()
 
         config_file = os.environ['APP_CONFIG_FILE']
-        print("Reading config from '{}'".format(config_file))
+        logging.info("Reading config from '%s'", config_file)
         with open(config_file) as cf:
             AppConfig.get = yaml.load(cf, Loader=yaml.FullLoader)
-            print(AppConfig.get) # debug. TODO: use a logger with logLevel
+            logging.debug(AppConfig.get)
             AppConfig._validate_config_entries()
 
     def _validate_config_entries():
-        print("TODO: config entries validation not implemented yet ;(")
+        logging.warning("TODO: config entries validation not implemented yet ;(")
 
     def _validate_config_present():
-        print("Loading application configuration")
         if "APP_CONFIG_FILE" not in os.environ:
-            print("Error: APP_CONFIG_FILE environment var not set")
+            logging.error("APP_CONFIG_FILE environment var not set")
             exit(1)
 

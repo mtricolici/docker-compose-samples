@@ -7,6 +7,7 @@ TAG=python-sample1
 
 docker run -it --rm \
   -e APP_CONFIG_FILE=/application-config.yaml \
+  -e LOG_LEVEL=DEBUG \
   -v $sdir/sources:/sources \
   -v $sdir/sample-config.yaml:/application-config.yaml \
   $TAG \

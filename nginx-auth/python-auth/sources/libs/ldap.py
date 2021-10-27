@@ -1,4 +1,5 @@
 import ldap
+import logging
 
 from .ldap_user import LdapUser
 from .ldap_group import LdapGroup
@@ -18,7 +19,10 @@ class LdapHelper:
             self.__ldap.simple_bind_s(user, password)
             return True
         except ldap.INVALID_CREDENTIALS:
-            print("Error: invalid credentials")
+            logging.error("invalid ldap credentials")
+            return False
+        except ldap.SERVER_DOWN:
+            logging.error("LDAP server is not reachable")
             return False
 
     def _decode(self, value):
