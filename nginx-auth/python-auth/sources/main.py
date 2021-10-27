@@ -3,7 +3,7 @@
 import logging
 from libs.logger import AppLogger
 from libs.config import AppConfig
-from libs.ldap_helper import LdapHelper
+from libs.ldap.helper import LdapHelper
 
 AppLogger.initialize()
 AppConfig.load()
