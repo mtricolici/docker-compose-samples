@@ -3,7 +3,7 @@
 import logging
 from libs.logger import AppLogger
 from libs.config import AppConfig
-from libs.ldap.helper import LdapHelper
+from libs.ldap.reader import LdapReader
 
 AppLogger.initialize()
 AppConfig.load()
@@ -15,7 +15,7 @@ ldap_password = AppConfig.get['ldap']['password']
 ldap_users_dn = AppConfig.get['ldap']['users_dn']
 ldap_groups_dn = AppConfig.get['ldap']['groups_dn']
 
-ldap=LdapHelper(ldap_host, ldap_port, ldap_users_dn, ldap_groups_dn)
+ldap=LdapReader(ldap_host, ldap_port, ldap_users_dn, ldap_groups_dn)
 
 if (ldap.connect(ldap_user, ldap_password)):
     logging.debug("LDAP users:")

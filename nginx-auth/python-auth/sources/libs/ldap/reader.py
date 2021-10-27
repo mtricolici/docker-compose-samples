@@ -4,7 +4,7 @@ import logging
 from .user import LdapUser
 from .group import LdapGroup
 
-class LdapHelper:
+class LdapReader:
 
     def __init__(self, host, port, users_dn, groups_dn):
         self.__ldap_host = host
