@@ -37,11 +37,16 @@ def start_sync_reply_consumer():
     ldap_url = "ldap://{}:{}".format(AppConfig.get['ldap']['host'], AppConfig.get['ldap']['port'])
 
     consumer = LdapSyncReplyConsumer(ldap_url)
-    consumer.simple_bind_s(AppConfig.get['ldap']['user'], AppConfig.get['ldap']['password'])
+    x = consumer.simple_bind_s(AppConfig.get['ldap']['user'], AppConfig.get['ldap']['password'])
+    print(x)
 
     base_dn = AppConfig.get['ldap']['base_dn']
+   # base_dn = AppConfig.get['ldap']['users_dn']
+
     ldap_search = consumer.syncrepl_search(base_dn, ldap.SCOPE_SUBTREE, 'refreshAndPersist',
-        filterstr = '(|(objectClass=posixAccount)(objectClass=posixGroup))')
+        attrlist = ["*,+"],
+        filterstr = '(objectClass=*)')
+   #     filterstr = '(|(objectClass=posixAccount)(objectClass=posixGroup))'
 
     while consumer.syncrepl_poll( all = 1, msgid = ldap_search):
         pass
