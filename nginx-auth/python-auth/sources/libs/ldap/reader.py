@@ -1,8 +1,8 @@
 import ldap
 import logging
 
-from .user import LdapUser
-from .group import LdapGroup
+from .model.user import LdapUser
+from .model.group import LdapGroup
 
 class LdapReader:
 
