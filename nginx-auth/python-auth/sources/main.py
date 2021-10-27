@@ -1,13 +1,16 @@
 #!/usr/bin/env python
 
+from libs.config import AppConfig
 from libs.ldap import LdapHelper
 
-ldap_host = '192.168.100.24'
-ldap_port = 1389
-ldap_user = 'cn=admin,dc=zuzu,dc=com'
-ldap_password = '123'
-ldap_users_dn = 'ou=users,dc=zuzu,dc=com'
-ldap_groups_dn = 'ou=groups,dc=zuzu,dc=com'
+AppConfig.load()
+
+ldap_host = AppConfig.get['ldap']['host']
+ldap_port = AppConfig.get['ldap']['port']
+ldap_user = AppConfig.get['ldap']['user']
+ldap_password = AppConfig.get['ldap']['password']
+ldap_users_dn = AppConfig.get['ldap']['users_dn']
+ldap_groups_dn = AppConfig.get['ldap']['groups_dn']
 
 ldap=LdapHelper(ldap_host, ldap_port, ldap_users_dn, ldap_groups_dn)
 

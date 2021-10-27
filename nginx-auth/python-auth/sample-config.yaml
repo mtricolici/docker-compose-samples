@@ -1,0 +1,7 @@
+ldap:
+  host: 192.168.100.24
+  port: 1389
+  user: "cn=admin,dc=zuzu,dc=com"
+  password: "123"
+  users_dn: "ou=users,dc=zuzu,dc=com"
+  groups_dn: "ou=groups,dc=zuzu,dc=com"
