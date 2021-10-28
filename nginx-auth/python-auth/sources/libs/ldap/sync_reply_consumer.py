@@ -1,3 +1,9 @@
+# Attempt to implement SyncReplyConsumer to monitor for changes in ldap failed.
+# Error from slapd (openldap) server:
+# ldap.UNAVAILABLE_CRITICAL_EXTENSION: {
+#'msgtype': 101, 'msgid': 2, 'result': 12,
+#'desc': 'Critical extension is unavailable', 'ctrls': [], 'info': 'critical extension is not recognized'}
+# How to fix this? Nobody knows :D
 import logging
 import ldap
 import ldapurl
