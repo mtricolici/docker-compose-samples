@@ -55,3 +55,12 @@ services:
       - './nginx/data:/data:ro'
     networks:
       - my-network
+  python:
+    build: ./python-auth
+    environment:
+      - APP_CONFIG_FILE=/zzz/config.yaml
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - './python-auth/compose-config.yaml:/zzz/config.yaml'
+    networks:
+      - my-network
