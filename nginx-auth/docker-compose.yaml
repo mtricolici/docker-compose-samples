@@ -46,3 +46,12 @@ services:
       - 'ldap_manager:/var/lib/ldap-account-manager/config'
     networks:
       - my-network
+  nginx:
+    image: nginx:alpine
+    ports:
+      - '8888:8888'
+    volumes:
+      - './nginx/conf.d:/etc/nginx/conf.d:ro'
+      - './nginx/data:/data:ro'
+    networks:
+      - my-network
