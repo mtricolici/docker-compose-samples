@@ -7,10 +7,12 @@ from libs.logger import AppLogger
 from libs.config import AppConfig
 from libs.ldap.data import LdapData
 from libs.ldap.sync import *
+from libs.jwt_handler import *
 
 def shutdown(signum, frame):
     logging.info("!!!signal handler. signal:'%d'", signum)
     stop_synchronization_job()
+    stop_jwt_handler()
     exit(0)
 
 signal.signal(signal.SIGINT, shutdown)  # handle SIGINT (ctrl+c)
@@ -20,8 +22,8 @@ AppLogger.initialize()
 AppConfig.load()
 
 LdapData.fetch_data()
-print(LdapData.users)
+#print(LdapData.users)
 
 start_ldap_synchronization_job()
+run_jwt_handler()
 
-input("")

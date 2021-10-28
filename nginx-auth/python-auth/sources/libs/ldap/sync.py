@@ -7,7 +7,6 @@ from ..config import AppConfig
 _sync_thread = None
 
 def _run_ldap_synchronization():
-    logging.debug("starting ldap synchronization")
     LdapData.fetch_data()
     start_ldap_synchronization_job()
 
