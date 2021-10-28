@@ -13,7 +13,9 @@ class JWTHandler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
             return
         logging.debug("==> GET '%s'", self.path)
-        self.send_error(666, "not implemented yet")
+        logging.debug("headers: %s", self.headers)
+        self.send_response(501, "not implemented yet")
+        self.end_headers()
 
 
 _jwt_handler = None
