@@ -23,8 +23,27 @@ class JWTHandler(http.server.BaseHTTPRequestHandler):
         self.end_headers()
 
     def handle_auth(self):
-        self.send_response(200)
+        self.send_response(401)
+        #self.send_response(200)
         self.end_headers()
+
+    def do_POST(self):
+        if self.path == "/generate-token.exe":
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length).decode("utf-8")
+            logging.debug("POST data: '%s'", post_data)
+            # post data should look like 'user=user1'. a dirty hack just for POC
+            user_id = post_data.split("=")[1]
+            token = "zxczxlkhjzxc"
+
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write("preved '{}'!\n Please find your token:\n{}"
+                .format(user_id, token).encode("utf-8"))
+            return;
+        self.send_response(501, "not implemented yet")
+        self.end_headers()
+
 
 _jwt_handler = None
 
