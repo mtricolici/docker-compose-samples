@@ -6,8 +6,8 @@ TAG=python-sample1
 
 
 docker run -it --rm \
+  --entrypoint bash \
   -e APP_CONFIG_FILE=/application-config.yaml \
   -v $sdir/sources:/sources \
   -v $sdir/sample-config.yaml:/application-config.yaml \
-  $TAG \
-  bash
+  $TAG

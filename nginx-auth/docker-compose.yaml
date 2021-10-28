@@ -15,11 +15,9 @@ services:
     image: bitnami/openldap:latest
     ports:
       - '1389:1389'
-      - '1777:1777'
     environment:
       - BITNAMI_DEBUG=false
       - LDAP_PORT_NUMBER=1389
-      - LDAP_LDAPS_PORT_NUMBER=1777
       - LDAP_ADMIN_USERNAME=admin
       - LDAP_ADMIN_PASSWORD=123
       - LDAP_ROOT=dc=zuzu,dc=com
