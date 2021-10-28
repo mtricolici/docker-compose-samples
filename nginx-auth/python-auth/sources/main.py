@@ -9,11 +9,12 @@ from libs.ldap.data import LdapData
 from libs.ldap.sync import *
 
 def shutdown(signum, frame):
-    logging.info("!!!signal handler '%s'", signum)
+    logging.info("!!!signal handler. signal:'%d'", signum)
     stop_synchronization_job()
     exit(0)
 
-signal.signal(signal.SIGINT, shutdown) # handle ctrl+c
+signal.signal(signal.SIGINT, shutdown)  # handle SIGINT (ctrl+c)
+signal.signal(signal.SIGTERM, shutdown) # handle SIGTERM (kill <pid>)
 
 AppLogger.initialize()
 AppConfig.load()
