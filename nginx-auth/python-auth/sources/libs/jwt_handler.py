@@ -7,16 +7,24 @@ from .config import AppConfig
 
 class JWTHandler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
+        logging.debug("==> GET '%s'", self.path)
+        logging.debug("headers: %s", self.headers)
+
         if self.path == "/healthz":
             self.send_response(200)
             self.send_header("Content-type", "text/plain")
             self.end_headers()
             return
-        logging.debug("==> GET '%s'", self.path)
-        logging.debug("headers: %s", self.headers)
+        if self.path == "/auth":
+            self.handle_auth()
+            return
+
         self.send_response(501, "not implemented yet")
         self.end_headers()
 
+    def handle_auth(self):
+        self.send_response(200)
+        self.end_headers()
 
 _jwt_handler = None
 

@@ -61,6 +61,9 @@ services:
       - APP_CONFIG_FILE=/zzz/config.yaml
       - LOG_LEVEL=DEBUG
     volumes:
-      - './python-auth/compose-config.yaml:/zzz/config.yaml'
+      - './python-auth/compose-config.yaml:/zzz/config.yaml:ro'
+      - './python-auth/sources:/app:ro'
+      # workaround while developing.
+      # I don't wanna invoke docker build each time I modify a .py file :)
     networks:
       - my-network
