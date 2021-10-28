@@ -6,3 +6,4 @@ ldap:
   base_dn: "dc=zuzu,dc=com"
   users_dn: "ou=users,dc=zuzu,dc=com"
   groups_dn: "ou=groups,dc=zuzu,dc=com"
+  sync_seconds: 20 
