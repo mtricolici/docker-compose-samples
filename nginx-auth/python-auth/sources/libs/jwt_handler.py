@@ -6,6 +6,7 @@ import threading
 
 from .config import AppConfig
 from .jwt_helper import JWTHelper
+from .ldap.data import LdapData
 
 class JWTHandler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
@@ -34,7 +35,20 @@ class JWTHandler(http.server.BaseHTTPRequestHandler):
             token = auth_header.removeprefix("Bearer").strip()
             logging.debug("auth. verify token: %s", token)
             helper = JWTHelper()
-            helper.verify(token)
+            token = helper.verify(token)
+
+            logging.debug("token: %s", token)
+
+            user_id = token['user']
+            if user_id not in LdapData.users:
+                raise ValueError("User not found in LDAP. removed?")
+
+            requested_uri = self.headers['X-Original-URI'] #Must be present! is set by nginx
+
+            #POC: just a POC of 'authorization!'
+            if requested_uri.startswith("/admin/"):
+                if "admins" not in LdapData.users[user_id]: # check user groups
+                    raise ValueError("User is not admin. Access denied!")
 
             self.send_response(200)
             self.end_headers()

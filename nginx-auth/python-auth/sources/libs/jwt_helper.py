@@ -12,7 +12,7 @@ class JWTHelper:
         self.expiration = AppConfig.get['jwt']['expiration_seconds']
 
     def verify(self, token):
-        jwt.decode(token, self.secret, algorithms=[self.alg], verify=True)
+        return jwt.decode(token, self.secret, algorithms=[self.alg], verify=True)
 
     def refresh(self):
         raise NotImplementedError
