@@ -1,3 +1,4 @@
+import re
 import logging
 import http.server
 import socketserver
@@ -24,9 +25,23 @@ class JWTHandler(http.server.BaseHTTPRequestHandler):
         self.end_headers()
 
     def handle_auth(self):
-        self.send_response(401)
-        #self.send_response(200)
-        self.end_headers()
+        try:
+            if 'Authorization' not in self.headers:
+                raise ValueError("Authorization header is missing")
+            auth_header = self.headers['Authorization'].strip()
+            if not re.match("^Bearer", auth_header):
+                raise ValueError("Unsupporte authentication method")
+            token = auth_header.removeprefix("Bearer").strip()
+            logging.debug("auth. verify token: %s", token)
+            helper = JWTHelper()
+            helper.verify(token)
+
+            self.send_response(200)
+            self.end_headers()
+        except Exception as e:
+            logging.error("AuthError:%s", e)
+            self.send_response(401)
+            self.end_headers()
 
     def do_POST(self):
         if self.path == "/generate-token.exe":
@@ -50,8 +65,11 @@ class JWTHandler(http.server.BaseHTTPRequestHandler):
             else:
                 self.send_response(200)
                 self.end_headers()
-                self.wfile.write("preved '{}'!\n Please find your token:\n{}"
+                self.wfile.write("preved '{}'!\n Please find your token:\n{}\n\n"
                     .format(user_id, token).encode("utf-8"))
+                self.wfile.write("Usage example:\n".encode("utf-8"))
+                self.wfile.write("curl -H \"Authorization: Bearer {}\" http://localhost:8888/admin".format(
+                    token).encode("utf-8"))
             return;
         self.send_response(501, "not implemented yet")
         self.end_headers()
