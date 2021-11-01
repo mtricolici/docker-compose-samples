@@ -82,7 +82,7 @@ class JWTHandler(http.server.BaseHTTPRequestHandler):
                 self.wfile.write("preved '{}'!\n Please find your token:\n{}\n\n"
                     .format(user_id, token).encode("utf-8"))
                 self.wfile.write("Usage example:\n".encode("utf-8"))
-                self.wfile.write("curl -H \"Authorization: Bearer {}\" http://localhost:8888/admin".format(
+                self.wfile.write("curl -H \"Authorization: Bearer {}\" http://localhost:8888/admin/".format(
                     token).encode("utf-8"))
             return;
         self.send_response(501, "not implemented yet")
