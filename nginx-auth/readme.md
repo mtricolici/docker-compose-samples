@@ -12,4 +12,23 @@ Now you have the following containers running:
 * custom python application (internally it binds on port 8080 and is accessed by nginx for auth requests)
 
 # How to use
-TBD
+access the nginx via: http://localhost:8888/
+
+you'll see a POC interface with links to token generation.
+
+Note: Ldap has 2 users: user1 (in administrators group) and user2 (simple user).
+
+* generate a token for user1 or user2
+* invoke some curl requests to /admin or /zuzu
+
+user1 should have access to both /admin and /zuzu
+
+user2 should have access to /zuzu only
+
+# How can I login to ldap?
+access http://localhost:8080/
+
+Username: admin
+password: 123
+
+BTW: all users in ldap have the same passwords: 123
