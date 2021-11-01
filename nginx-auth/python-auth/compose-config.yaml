@@ -8,3 +8,7 @@ ldap:
   users_dn: "ou=users,dc=zuzu,dc=com"
   groups_dn: "ou=groups,dc=zuzu,dc=com"
   sync_seconds: 120
+jwt:
+  alg: HS256
+  secret: MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTIzNDU2Nzg5MA==
+  expiration_seconds: 600 # 10 minutes

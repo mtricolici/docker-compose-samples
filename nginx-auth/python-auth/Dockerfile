@@ -4,7 +4,8 @@ ADD sources/requirements.txt /tmp/
 ADD sources /app
 
 RUN apk add --no-cache bash libldap && \
-    apk add --no-cache --virtual build-deps gcc musl-dev openldap-dev python3-dev && \
+    apk add --no-cache --virtual build-deps \
+      gcc musl-dev openldap-dev python3-dev libffi-dev && \
     pip install -r /tmp/requirements.txt && \
     apk del build-deps
 

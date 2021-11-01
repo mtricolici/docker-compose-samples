@@ -4,6 +4,7 @@ import socketserver
 import threading
 
 from .config import AppConfig
+from .jwt_helper import JWTHelper
 
 class JWTHandler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
@@ -34,12 +35,23 @@ class JWTHandler(http.server.BaseHTTPRequestHandler):
             logging.debug("POST data: '%s'", post_data)
             # post data should look like 'user=user1'. a dirty hack just for POC
             user_id = post_data.split("=")[1]
-            token = "zxczxlkhjzxc"
+            
+            #TODO: read email from ldap
+            email = "{}@zuzu.com".format(user_id)
 
-            self.send_response(200)
-            self.end_headers()
-            self.wfile.write("preved '{}'!\n Please find your token:\n{}"
-                .format(user_id, token).encode("utf-8"))
+            #TODO: verify presence of the user ;)
+            helper = JWTHelper()
+            token = helper.generate(user_id, email)
+            if token is None:
+                self.send_response(200)
+                self.end_headers()
+                self.wfile.write(
+                    "Error. cannot create a ticket for you. please try again never:D".encode("utf-8"))
+            else:
+                self.send_response(200)
+                self.end_headers()
+                self.wfile.write("preved '{}'!\n Please find your token:\n{}"
+                    .format(user_id, token).encode("utf-8"))
             return;
         self.send_response(501, "not implemented yet")
         self.end_headers()
