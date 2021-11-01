@@ -32,3 +32,9 @@ Username: admin
 password: 123
 
 BTW: all users in ldap have the same passwords: 123
+
+* nginx configuration can be found here: [nginx/conf.d/default.conf](nginx/conf.d/default.conf)
+* python code for authentication and authorization (POC) is here: [python-auth/sources/libs/jwt_handler.py](python-auth/sources/libs/jwt_handler.py)
+* python app sample configuration is here: [python-auth/sample-config.yaml](python-auth/sample-config.yaml)
+
+
