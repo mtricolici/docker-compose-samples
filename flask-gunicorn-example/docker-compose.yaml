@@ -15,6 +15,7 @@ services:
       - GUNICORN_WORKERS=3
       - GUNICORN_THREADS=10
       - GUNICORN_PORT=8080
+      - GUNICORN_WORKER_CLASS=gevent
     networks:
       - my-network
     volumes:
