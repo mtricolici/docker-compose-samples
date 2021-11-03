@@ -16,4 +16,5 @@ exec gunicorn --chdir /app \
   --user python \
   --group python \
   --worker-class ${class} \
+  --worker-tmp-dir /my-tmp-dir \
   sample:exemplu

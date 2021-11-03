@@ -4,6 +4,13 @@ networks:
   my-network:
     driver: bridge
 
+volumes:
+  ram-disk:
+    driver_opts:
+      type: tmpfs
+      o: "size=64m"
+      device: tmpfs
+
 services:
   python:
     build: python
@@ -19,6 +26,7 @@ services:
     networks:
       - my-network
     volumes:
+      - 'ram-disk:/my-tmp-dir'
       # mount sources (needed during development - to not rebuild images on every py change)
       - './python/sources:/app:ro'
     networks:
