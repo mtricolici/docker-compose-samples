@@ -8,6 +8,7 @@ class="${GUNICORN_WORKER_CLASS:-sync}"
 
 echo "unicorn workers: $workers"
 echo "gunicorn threads: $threads"
+echo "gunicorn worker class: $class"
 
 exec gunicorn --chdir /app \
   --workers $workers \

@@ -31,3 +31,7 @@ services:
       - './python/sources:/app:ro'
     networks:
       - my-network
+  slow-backend:
+    build: slow-backend
+    networks:
+      - my-network
