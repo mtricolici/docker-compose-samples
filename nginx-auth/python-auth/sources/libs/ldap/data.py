@@ -1,4 +1,5 @@
 import logging
+import threading
 from datetime import datetime
 
 from .reader import LdapReader
@@ -47,6 +48,8 @@ class LdapData:
         
         LdapData.__last_fetch = datetime.now()
         LdapData.__data = new_data
+        logging.debug("NEW ldap data fetched successfully")
 
     def __invoke_fetch_async_job():
-        ceva
+        logging.debug("invoke_fetch_async_job called")
+        threading.Thread(target=LdapData.fetch_data).start()
