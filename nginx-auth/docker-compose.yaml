@@ -66,6 +66,8 @@ services:
     build:
       context: ./python-auth
       dockerfile: Dockerfile.debian
+    ports:
+      - '8081:8080' # Just for testing purposes I expose python port
     environment:
       - APP_CONFIG_FILE=/zzz/config.yaml
       - LOG_LEVEL=DEBUG
