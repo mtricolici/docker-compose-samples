@@ -61,7 +61,9 @@ services:
     networks:
       - my-network
   python:
-    build: ./python-auth
+    build:
+      context: ./python-auth
+      dockerfile: Dockerfile.debian
     environment:
       - APP_CONFIG_FILE=/zzz/config.yaml
       - LOG_LEVEL=DEBUG
