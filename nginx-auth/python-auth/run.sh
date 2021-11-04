@@ -4,6 +4,8 @@ sdir="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 TAG=python-sample1
 
+#worker-class: sync, gevent, gthread
+
 docker run -it --rm \
   -e APP_CONFIG_FILE=/application-config.yaml \
   -e GUNICORN_WORKERS=3 \
