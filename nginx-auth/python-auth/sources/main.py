@@ -34,7 +34,7 @@ def handle_auth():
         auth_header = request.headers['Authorization'].strip()
         if not re.match("^Bearer", auth_header):
             raise ValueError("Unsupporte authentication method")
-        token = auth_header.removeprefix("Bearer").strip()
+        token = auth_header[len("Bearer"):].strip()
         logging.debug("auth. verify token: %s", token)
         helper = JWTHelper()
         token = helper.verify(token)
