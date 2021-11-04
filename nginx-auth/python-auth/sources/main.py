@@ -2,6 +2,7 @@
 
 import re
 import logging
+import redis
 from flask import Flask
 from flask import Response
 from flask import request
@@ -87,3 +88,29 @@ Your refresh token is: {}
         logging.error(e)
         return "Error. I cannot generate a token for you. I'm very very sorry"
 
+@app.route('/refresh')
+def refresh_token():
+    try:
+        refresh_token = request.args.get('refresh_token', '').strip()
+        jwt_token = request.args.get('jwt_token', '').strip()
+        logging.debug("/refresh rt=%s", refresh_token)
+        logging.debug("/refresh jwt=%s", jwt_token)
+
+        helper = JWTHelper()
+
+        token = helper.verify(jwt_token, options={"verify_signature": True, "verify_exp": False})
+        r = redis.Redis(
+            decode_responses=True,
+            host=AppConfig.get['redis']['host'],
+            port=AppConfig.get['redis']['port'], db=0)
+        valid_refresh_token = r.get(token['user']) #read refresh token for this user
+        if (valid_refresh_token != refresh_token):
+            return "invalid refresh token", 500
+
+        new_token, new_refresh_token = helper.generate(token['user'], token['email'])
+
+        return "Your new token: {}\nYour new refresh-token: {}".format(new_token, new_refresh_token)
+
+    except Exception as e:
+        logging.error(e)
+        return "oops. something went wrong", 500

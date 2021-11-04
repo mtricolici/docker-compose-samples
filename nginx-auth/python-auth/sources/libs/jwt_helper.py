@@ -13,8 +13,8 @@ class JWTHelper:
         self.secret = AppConfig.get['jwt']['secret']
         self.expiration = AppConfig.get['jwt']['expiration_seconds']
 
-    def verify(self, token):
-        return jwt.decode(token, self.secret, algorithms=[self.alg], verify=True)
+    def verify(self, token, options={"verify_signature": True, "verify_exp": True}):
+        return jwt.decode(token, self.secret, algorithms=[self.alg], options=options)
 
     def refresh(self):
         raise NotImplementedError
@@ -36,7 +36,10 @@ class JWTHelper:
             logging.debug("refresh tokenq: %s", refresh_token)
             logging.debug("redis host is '%s'", AppConfig.get['redis']['host'])
             logging.debug("redis port is '%d'", AppConfig.get['redis']['port'])
-            r = redis.Redis(host=AppConfig.get['redis']['host'], port=AppConfig.get['redis']['port'], db=0)
+            r = redis.Redis(
+                decode_responses=True,
+                host=AppConfig.get['redis']['host'],
+                port=AppConfig.get['redis']['port'], db=0)
             r.set(username, refresh_token)
             return token, refresh_token
         except Exception as e:
