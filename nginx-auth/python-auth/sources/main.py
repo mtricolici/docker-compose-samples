@@ -6,8 +6,10 @@ from flask import Flask
 from flask import Response
 from flask import request
 
+
+# Why this is needed? I don't know :D It works without it too
 import gevent.monkey
-gevent.monkey.patch_all() # Why this is needed? I don't know :D
+gevent.monkey.patch_all()
 
 from libs.logger import AppLogger
 from libs.config import AppConfig
