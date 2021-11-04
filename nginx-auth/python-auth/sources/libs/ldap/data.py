@@ -12,8 +12,17 @@ class LdapData:
     # 'user1' => ['developers', 'group2', 'group3']
 
     def get_users_groups_dictionary():
-        #TODO: check if _last_fetch is too old and invoke a 'refresh'... async?
+        if (LdapData.__last_fetch is None):
+            logging.error("LDAP data is empty?? seems to be a bug")
+            LdapData.__invoke_fetch_async_job()
+        else:
+            time_difference_seconds = (datetime.now() - LdapData.__last_fetch).total_seconds()
+            if (time_difference_seconds >= AppConfig.get['ldap']['sync_seconds']):
+                logging.info("Ldap data too old. scheduling a refresh")
+                LdapData.__invoke_fetch_async_job()
+
         return LdapData.__data
+
 
     def fetch_data():
         ldap = LdapReader(
@@ -38,3 +47,6 @@ class LdapData:
         
         LdapData.__last_fetch = datetime.now()
         LdapData.__data = new_data
+
+    def __invoke_fetch_async_job():
+        ceva
