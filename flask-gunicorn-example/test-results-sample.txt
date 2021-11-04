@@ -1,0 +1,11 @@
+## case1: default worker class: sync.
+Time taken for tests:   51.089 seconds
+Requests per second:    97.87 [#/sec] (mean)
+
+
+## case2: worker class: gevent.
+Time taken for tests:   8.029 seconds
+Requests per second:    622.70 [#/sec] (mean)
+
+
+
