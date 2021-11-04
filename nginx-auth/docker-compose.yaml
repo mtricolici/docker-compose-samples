@@ -9,6 +9,11 @@ volumes:
     driver: local
   ldap_manager:
     driver: local
+  ram-disk1:
+    driver_opts:
+      type: tmpfs
+      o: "size=64m"
+      device: tmpfs
 
 services:
   ldap:
@@ -60,10 +65,16 @@ services:
     environment:
       - APP_CONFIG_FILE=/zzz/config.yaml
       - LOG_LEVEL=DEBUG
+      # TODO: move the values bellow to config.yaml
+      - GUNICORN_WORKERS=3
+      - GUNICORN_THREADS=5
+      - GUNICORN_PORT=8080
+      - GUNICORN_WORKER_CLASS=gevent
     volumes:
       - './python-auth/compose-config.yaml:/zzz/config.yaml:ro'
-      - './python-auth/sources:/app:ro'
+      - 'ram-disk1:/my-tmp-dir'
       # workaround while developing.
       # I don't wanna invoke docker build each time I modify a .py file :)
+      - './python-auth/sources:/app:ro'
     networks:
       - my-network
