@@ -30,6 +30,6 @@ class JWTHelper:
             return token
         except Exception as e:
             logging.error("JWT:generate failure: %s", e)
-            return None
+            raise # I don't want to check for None when I call this :)
 
 

@@ -1,13 +1,19 @@
 import logging
+from datetime import datetime
 
 from .reader import LdapReader
 from ..config import AppConfig
 
 class LdapData:
-    users = {}
+    __last_fetch = None
+    __data = {}
     # Structure: userid as KEY and user groups string list as VALUE
     # Example of an entry in this dictionary
     # 'user1' => ['developers', 'group2', 'group3']
+
+    def get_users_groups_dictionary():
+        #TODO: check if _last_fetch is too old and invoke a 'refresh'... async?
+        return LdapData.__data
 
     def fetch_data():
         ldap = LdapReader(
@@ -29,5 +35,6 @@ class LdapData:
             for g in groups:
                 if u.cn in g.members:
                     new_data[u.cn].append(g.cn)
-
-        LdapData.users = new_data
+        
+        LdapData.__last_fetch = datetime.now()
+        LdapData.__data = new_data
