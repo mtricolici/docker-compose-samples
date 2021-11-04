@@ -17,4 +17,5 @@ docker run -it --rm \
   -v $sdir/sample-config.yaml:/application-config.yaml \
   --tmpfs /my-tmp-dir \
   --name debug_python_sample1 \
+  --network=nginx-auth_my-network \
   $TAG

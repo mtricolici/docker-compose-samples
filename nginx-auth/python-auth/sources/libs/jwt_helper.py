@@ -1,6 +1,8 @@
 import logging
 import jwt
 import datetime
+import redis
+import random, string
 
 from .config import AppConfig
 
@@ -17,6 +19,10 @@ class JWTHelper:
     def refresh(self):
         raise NotImplementedError
 
+    def __generate_refresh_token(self):
+        s=string.ascii_lowercase+string.digits
+        return ''.join(random.sample(s,32))
+
     def generate(self, username, email):
         try:
             logging.debug("jtw:generate('%s','%s')", username, email)
@@ -26,8 +32,13 @@ class JWTHelper:
             logging.debug("new generated token: %s", data)
 
             token = jwt.encode(data, self.secret, algorithm=self.alg)
-            #TODO: generate a refresh token and add it to response? save this refresh code somewhere.
-            return token
+            refresh_token = self.__generate_refresh_token()
+            logging.debug("refresh tokenq: %s", refresh_token)
+            logging.debug("redis host is '%s'", AppConfig.get['redis']['host'])
+            logging.debug("redis port is '%d'", AppConfig.get['redis']['port'])
+            r = redis.Redis(host=AppConfig.get['redis']['host'], port=AppConfig.get['redis']['port'], db=0)
+            r.set(username, refresh_token)
+            return token, refresh_token
         except Exception as e:
             logging.error("JWT:generate failure: %s", e)
             raise # I don't want to check for None when I call this :)

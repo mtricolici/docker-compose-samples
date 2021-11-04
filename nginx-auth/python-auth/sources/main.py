@@ -71,12 +71,17 @@ def generate_token():
             raise ValueError("User not found in LDAP")
         email = "{}@zuzu.com".format(user) #TODO: read email from ldap
         helper = JWTHelper()
-        token = helper.generate(user, email)
+        token, refresh_token = helper.generate(user, email)
         return """Prevet '{}'!
-Please find your token: {}
+Please find your token: {}\n\n
 
 Usage example:
-curl -H "Authorization: Bearer {}" http://localhost:8888/admin/""".format(user, token, token)
+curl -H "Authorization: Bearer {}" http://localhost:8888/admin/\n\n
+
+Your refresh token is: {}
+
+""".format(user, token, token, refresh_token)
+
         
     except Exception as e:
         logging.error(e)
