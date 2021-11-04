@@ -20,7 +20,7 @@ AppLogger.initialize()
 AppConfig.load()
 
 LdapData.fetch_data()
-print(LdapData.get_users_groups_dictionary())
+#print(LdapData.get_users_groups_dictionary())
 
 app=Flask(__name__)
 app.config['DEBUG'] = True # Does this work with gunicorn?

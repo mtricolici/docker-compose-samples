@@ -6,6 +6,9 @@ TAG=python-sample1
 
 docker run -it --rm \
   -e APP_CONFIG_FILE=/application-config.yaml \
+  -e GUNICORN_WORKERS=3 \
+  -e GUNICORN_THREADS=5 \
+  -e GUNICORN_WORKER_CLASS=gevent \
   -p 8081:8080 \
   -e LOG_LEVEL=DEBUG \
   -v $sdir/sources:/app \
