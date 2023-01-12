@@ -1,5 +1,9 @@
 version: '2'
 
+volumes:
+  prometheus_data:
+    driver: local
+
 networks:
   my-net:
     driver: bridge
@@ -18,4 +22,4 @@ services:
       - my-net
     volumes:
       - './prometheus.yml:/etc/prometheus/prometheus.yml:ro'
-
+      - 'prometheus_data:/var/lib/prometheus'
