@@ -1,0 +1,16 @@
+version: '2'
+
+networks:
+  my-net:
+    driver: bridge
+
+services:
+  prom:
+    image: secureimages/prometheus:2.36.2-alpine-3.16.0
+    ports:
+      - 9090:9090
+    networks:
+      - my-net
+    volumes:
+      - './prometheus.yml:/etc/prometheus/prometheus.yml:ro'
+
